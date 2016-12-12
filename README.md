@@ -5,10 +5,14 @@ The App shows the 5 day weather forecast alongside with the lowest and highest t
 ## Overview
 
 The Appcelerator Arrow Framework is used, with a single API and a single Route
+
 The public Weather API used is DarkSky: https://darksky.net/dev/ via an npm package wrapper: https://www.npmjs.com/package/dark-sky
 
 The current location of the user is used if available, by trying to obtain the user's IP address server-side (won't work for localhost:8080). It should be enhanced to use also a client-side solution like HTML5's Geolocation API;
+
 In case of missing coordinates, the application defaults to Sofia, Bulgaria
+
+.env is publicly available for now, for obvious reasons
 
 ## Get Started
 
