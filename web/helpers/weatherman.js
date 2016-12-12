@@ -1,3 +1,6 @@
+// a module with a single method for now. Could be a scaling point to the application for adding additional functionality besides the 5 day forecast
+// gets the data + formats it for the .hbs view: the formatting could occur in the Route itself, just before passing it to the .hbs view
+
 require('dotenv').config();
 const DarkSky = require('dark-sky');
 const forecast = new DarkSky(process.env.DARK_SKY_API_KEY);
@@ -6,9 +9,17 @@ const moment = require('moment');
 
 const blueprint = {
     get_5DayForecast: function(options, callback) {
-        satelize.satelize({
-            ip: options.ip,
-        }, function(err, payload) {
+
+        try {
+            satelize.satelize({
+                ip: options.ip,
+            }, onCoordinatesReady);
+        } catch (err) {
+            onCoordinatesReady(null, null);
+        }
+
+
+        function onCoordinatesReady(err, payload) {
             if (err) {
                 callback(err, null);
             } else {
@@ -22,7 +33,7 @@ const blueprint = {
                     .longitude(longitude)
                     .units('ca')
                     .language('en')
-                    .exclude('minutely,hourly,currently,alerts,flags')
+                    .exclude('minutely,hourly,currently,alerts,flags') // strip off unnecessary data
                     .get()
                     .then(res => {
                         res = res || {};
@@ -65,7 +76,7 @@ const blueprint = {
                         callback(err, null);
                     })
             }
-        });
+        }
     },
 }
 
